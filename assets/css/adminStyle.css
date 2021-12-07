@@ -143,7 +143,10 @@ a.article:hover {
   background: #f5a300 !important;
   color: #fff !important;
 }
-
+ul .active {
+  background: #f5a300 !important;
+  color: #fff !important;
+}
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */

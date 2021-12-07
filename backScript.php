@@ -1,5 +1,6 @@
 <?php
 include_once "./connect.php";
+session_start();
 // RentalAgency Registration
 if (isset($_POST['RentalAgencyName']) && isset($_POST['RentalAgencyEmail']) && isset($_POST['RentalAgencyContactNo']) && isset($_POST['RentalAgencyAddress']) && isset($_POST['RentalAgencyRegistrationNo']) && isset($_POST['RentalAgencyPassword']) && isset($_POST['RentalAgencyConfirmPassword']) && $_FILES['RentalAgencyDocument']) {
     if ($_POST['RentalAgencyName'] != "" &&  $_POST['RentalAgencyEmail'] != "" && $_POST['RentalAgencyContactNo'] != "" && $_POST['RentalAgencyAddress'] != "" && $_POST['RentalAgencyRegistrationNo'] != "" && $_POST['RentalAgencyPassword'] != "" && $_POST['RentalAgencyConfirmPassword'] != "" && $_FILES['RentalAgencyDocument']) {
@@ -16,7 +17,7 @@ if (isset($_POST['RentalAgencyName']) && isset($_POST['RentalAgencyEmail']) && i
         $userCheck = mysqli_query($connect,"SELECT * FROM `users` WHERE `users`.`email` = '$RentalAgencyEmail'");
         if (mysqli_num_rows($userCheck) == 0) {
             $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif');
-            $path = './assets/';
+            $path = './assets/images/Documents/';
             $ext = strtolower(pathinfo($RentalAgencyDocumentName, PATHINFO_EXTENSION));
             $finalImage = strtolower($RentalAgencyName.$RentalAgencyEmail.".".$ext);
             $path1 = $path.($finalImage);
@@ -24,15 +25,15 @@ if (isset($_POST['RentalAgencyName']) && isset($_POST['RentalAgencyEmail']) && i
                 echo "Password and confirm password should be same.";
             } elseif(!in_array($ext, $valid_extensions)){
                 echo "Images extension can be 'jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif'";
-            } elseif($_FILES['RentalAgencyDocument']['size'] > 1097152){
-                echo "Image size must be exactly 1MB or below.";
-            } elseif (move_uploaded_file($RentalAgencyDocumentFile,$path1) or 1) {
+            } elseif($_FILES['RentalAgencyDocument']['size'] > 5097152){
+                echo "Image size must be exactly 5MB or below.";
+            } elseif (move_uploaded_file($RentalAgencyDocumentFile,$path1)) {//
                 $hashed_password = password_hash($RentalAgencyPassword, PASSWORD_DEFAULT);
-                $RentalAgencyRegister = mysqli_query($connect,"INSERT INTO `users`( `name`, `email`, `contactNo`, `address`, `AadharNoOrAgencyRegistrationNo`, `document`, `password`, `loginType`) VALUES ('$RentalAgencyName','$RentalAgencyEmail','$RentalAgencyContactNo','$RentalAgencyAddress','$RentalAgencyRegistrationNo','$finalImage','$hashed_password','0')");
+                $RentalAgencyRegister = mysqli_query($connect,"INSERT INTO `users`(`name`, `email`, `contactNo`, `address`, `AadharNoOrAgencyRegistrationNo`, `document`, `password`, `loginType`) VALUES ('$RentalAgencyName','$RentalAgencyEmail','$RentalAgencyContactNo','$RentalAgencyAddress','$RentalAgencyRegistrationNo','$finalImage','$hashed_password','0')") or mysqli_error($connect);
                 if ($RentalAgencyRegister) {
                     echo "Rental Agency successfully registered.";
                 }else {
-                    unlink("./assets/images/RentalAgencyDocument/$finalImage");
+                    unlink("./assets/images/Documents/$finalImage");
                     echo "failed, Try Again!";
                 }
             }else {
@@ -72,15 +73,15 @@ if (isset($_POST['CustomersName']) && isset($_POST['CustomersEmail']) && isset($
                 echo "Password and confirm password should be same.";
             } elseif(!in_array($ext, $valid_extensions)){
                 echo "Images extension can be 'jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif'";
-            } elseif($_FILES['CustomersDocument']['size'] > 1097152){
-                echo "Image size must be exactly 1MB or below.";
+            } elseif($_FILES['CustomersDocument']['size'] > 5097152){
+                echo "Image size must be exactly 5MB or below.";
             } elseif (move_uploaded_file($CustomersDocumentFile,$path1) or 1) {
                 $hashed_password = password_hash($CustomersPassword, PASSWORD_DEFAULT);
                 $CustomersRegister = mysqli_query($connect,"INSERT INTO `users`( `name`, `email`, `contactNo`, `address`, `AadharNoOrAgencyRegistrationNo`, `document`, `password`, `loginType`) VALUES ('$CustomersName','$CustomersEmail','$CustomersContactNo','$CustomersAddress','$AadharNumber','$finalImage','$hashed_password','1')");
                 if ($CustomersRegister) {
                     echo "Rental Agency successfully registered.";
                 }else {
-                    unlink("./assets/images/CustomersDocument/$finalImage");
+                    unlink("./assets/images/Documents/$finalImage");
                     echo "failed, Try Again!";
                 }
             }else {
@@ -95,6 +96,7 @@ if (isset($_POST['CustomersName']) && isset($_POST['CustomersEmail']) && isset($
         echo "All fields must be filled!";
     }
 }
+
 // User Login
 if(isset($_POST['UserLogin'])){
 	if (!isset($_POST['loginEmail']) || $_POST['loginEmail'] == "" || !isset($_POST['loginPassword']) || $_POST['loginPassword'] == "" ) {
@@ -110,11 +112,11 @@ if(isset($_POST['UserLogin'])){
 			if (password_verify($loginPassword, $searchUserRow['password'])) {
                 
                 if ($searchUserRow['loginType'] == "0") {
-                    session_start();
+                    //session_start();
                     $_SESSION['RentalAgency'] = $searchUserRow['userId'];
                     echo "loggedSuccessfully";
                 }elseif ($searchUserRow['loginType'] == "1") {
-                    session_start();
+                    //session_start();
                     $_SESSION['Customer'] = $searchUserRow['userId'];
                     echo "loggedSuccessfully";
                 } 
