@@ -14,6 +14,7 @@ $dbName = "carRentalAgency";
 
 // Creating a connection
 $connect =  mysqli_connect($serverName,$userName, $password,$dbName);
+//$connect = mysqli_connect('localhost',"qp5uwu6wq87f","Girish@falcon5",'carRentalAgency');
 //$connect =  mysqli_connect("localhost","root", "","carRentalAgency");
 // Check connection
 if (!$connect || $connect->connect_error) {

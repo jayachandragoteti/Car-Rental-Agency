@@ -190,3 +190,7 @@ ul .active {
 .ze-text-primary {
   color: #1e2328;
 }
+.profileImage {
+  height: 15rem;
+  width: 15rem;
+}

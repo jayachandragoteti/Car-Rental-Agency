@@ -14,7 +14,7 @@ if (isset($_SESSION['RentalAgency'])) {
 	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	<!--Favicon-->
-	<link rel="icon" href="./assets/images/logo.png" type="image/gif" sizes="16x16">
+	<link rel="icon" href="./assets/images/HomeCar.png" type="image/gif" sizes="16x16">
 	<!-- Page title -->
 	<title>Car Rental Agency </title>
 	<!-- Font awesome -->
@@ -29,25 +29,37 @@ if (isset($_SESSION['RentalAgency'])) {
 	<header class="navbar navbar-dark bg-dark">
 		<div class="container-fluid ">
 			<div class="container d-flex align-items-center justify-content-between">
-				<div class="d-flex align-items-center"> <i class="far fa-calendar-alt  text-white">&nbsp</i><span id="dateYear" class="text-white"></span> </div>
-				<div class="d-flex align-items-center"> <i class="far fa-clock text-white">&nbsp</i> <span id="datetime" class="text-white"></span> </div>
+				<div class="d-flex align-items-center">
+					<a href="tel:9491694195" class="text-white text-decoration-none" ><i class="fas fa-phone-alt">&nbsp</i> Contact</a> 
+				</div>
+				<div class="d-flex align-items-center">
+				<?PHP if (isset($_SESSION['Customer'])) {?>
+					<a href="./logout.php" class="text-decoration-none text-white" ><i class="fas fa-sign-out-alt">&nbsp</i> Logout</a>
+				<?PHP  }else {?>
+					<a href="#" class="text-decoration-none Login text-white" onclick="ajaxLoginPageCall()"><i class="fas fa-sign-in-alt">&nbsp</i> Login</a>
+				<?PHP  }?>
+				</div>
 			</div>
 		</div>
 	</header>
 	<!-- End Header -->
 	<!-- Navbar -->
 	<nav>
-		<div class="logo mx-auto"> <img src="./assets/images/logo.png" height="100px" width="100px"> </div>
+		<div class="logo mx-auto"> <img src="./assets/images/logo.png"></div>
 		<input type="checkbox" id="click">
 		<label for="click" class="menu-btn" id="sidebarCollapse"> <i class="fas fa-bars"></i> </label>
 		<ul class="mx-auto">
 			<li><a href="#" class="text-decoration-none Home" onclick="ajaxHomePageCall()"> <label for="click" style="cursor: pointer;" >Home</label></a></li>
-			<!-- <li><a href="#" class="text-decoration-none MyRequests" onclick="ajaxMyRequestsPageCall()"><label for="click"  style="cursor: pointer;" >My Requests</label></a></li>
-			<li><a href="#" class="text-decoration-none ChangePassword" onclick="ajaxChangePasswordPageCall()"><label for="click" style="cursor: pointer;" >Change Password</label></a></li>
+			<!-- <li><a href="#" class="text-decoration-none ChangePassword" onclick="ajaxChangePasswordPageCall()"><label for="click" style="cursor: pointer;" >Change Password</label></a></li>
             <li><a href="#" class="text-decoration-none Profile" onclick="ajaxProfilePageCall()"><label for="click" style="cursor: pointer;" >Profile</label></a></li>
 			<li><a href="./logout.php" class="text-decoration-none">Logout</a></li> -->
+			<?PHP if (isset($_SESSION['Customer'])) {?>
+				<li><a href="#" class="text-decoration-none ChangePassword" onclick="ajaxChangePasswordPageCall()"><label for="click" style="cursor: pointer;" >Change Password</label></a></li>
+				<li><a href="#" class="text-decoration-none MyRequests" onclick="ajaxMyRequestsPageCall()"><label for="click"  style="cursor: pointer;" >My Bookings</label></a></li>
+				<li><a href="#" class="text-decoration-none Profile" onclick="ajaxProfilePageCall()"><label for="click" style="cursor: pointer;" >Profile</label></a></li>
+			<?PHP  }else {?>
 			<li><a href="#" class="text-decoration-none Register" onclick="ajaxRegisterPageCall()"><label for="click" style="cursor: pointer;" >Register</label></a></li>
-			<li><a href="#" class="text-decoration-none Login" onclick="ajaxLoginPageCall()"><label for="click" style="cursor: pointer;" >Login</label></a></li>
+			<?PHP  }?>
 		</ul>
 	</nav>
 	<!-- End Navbar -->
@@ -74,14 +86,17 @@ if (isset($_SESSION['RentalAgency'])) {
 						<div class="col-xl-2 col-md-4 col-sm-4 col-12">
 							<h6 class="mb-3 mb-lg-4 bold-text "><b>MENU</b></h6>
 							<ul class="list-unstyled">
-								
-								<li><a href="#" class="text-decoration-none text-white Home" onclick="ajaxHomePageCall()" for="click" ><i class="fas fa-angle-right"></i>  Home</a></li>
-								<li><a href="#" class="text-decoration-none text-white MyRequests" onclick="ajaxMyRequestsPageCall()"><i class="fas fa-angle-right"></i>  My Requests</a></li>
-								<li><a href="#" class="text-decoration-none text-white ChangePassword" onclick="ajaxChangePasswordPageCall()"><i class="fas fa-angle-right"></i>  Change Password</a></li>
-								<li><a href="#" class="text-decoration-none text-white Profile" onclick="ajaxProfilePageCall()"><i class="fas fa-angle-right"></i>  Profile</a></li>
-								<li><a href="logout.php" class="text-decoration-none text-white "><i class="fas fa-angle-right"></i> Logout</a></li>
-								<li><a href="#" class="text-decoration-none text-white Register" onclick="ajaxRegisterPageCall()" for="click"><i class="fas fa-angle-right"></i>  Register</a></li>
-								<li><a href="#" class="text-decoration-none text-white Login" onclick="ajaxLoginPageCall()"><i class="fas fa-angle-right"></i>  Login</a></li>
+								<li><a href="#" class="text-decoration-none text-white Home"onclick="ajaxHomePageCall()"> <i class="fas fa-angle-right"></i> Home</a></li>
+								<!-- <li><a href="#" class="text-decoration-none ChangePassword" onclick="ajaxChangePasswordPageCall()">Change Password</a></li>
+								<li><a href="#" class="text-decoration-none Profile" onclick="ajaxProfilePageCall()">Profile</a></li>
+								<li><a href="./logout.php" class="text-decoration-none">Logout</a></li> -->
+								<?PHP if (isset($_SESSION['Customer'])) {?>
+									<li><a href="#" class="text-decoration-none text-white ChangePassword" onclick="ajaxChangePasswordPageCall()"><i class="fas fa-angle-right"></i> Change Password</a></li>
+									<li><a href="#" class="text-decoration-none text-white MyRequests" onclick="ajaxMyRequestsPageCall()"><i class="fas fa-angle-right"></i> My Bookings</a></li>
+									<li><a href="#" class="text-decoration-none text-white Profile" onclick="ajaxProfilePageCall()"><i class="fas fa-angle-right"></i> Profile</a></li>
+								<?PHP  }else {?>
+								<li><a href="#" class="text-decoration-none text-white Register" onclick="ajaxRegisterPageCall()"><i class="fas fa-angle-right"></i> Register</a></li>
+								<?PHP  }?>
 							</ul>
 						</div>
 					</div>

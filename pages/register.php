@@ -38,6 +38,10 @@
                                         <input type="text" name="RentalAgencyAddress" class="form-control border-warning  shadow-none" id="RentalAgencyAddress" required/> 
                                     </div>
                                     <div class="mb-3 ">
+                                        <label for="RentalAgencyCity" class="form-label">City</label>
+                                        <input type="text" name="RentalAgencyCity" class="form-control border-warning  shadow-none" id="RentalAgencyCity" required/> 
+                                    </div>
+                                    <div class="mb-3 ">
                                         <label for="RentalAgencyRegistrationNo" class="form-label">Agency Registration No</label>
                                         <input type="text" name="RentalAgencyRegistrationNo" class="form-control border-warning  shadow-none" id="RentalAgencyRegistrationNo" required/> 
                                     </div>
@@ -82,6 +86,10 @@
                                     <div class="mb-3 ">
                                         <label for="CustomersContactNo" class="form-label">Contact No</label>
                                         <input type="phone" name="CustomersContactNo" class="form-control border-warning  shadow-none" id="CustomersContactNo" required/> 
+                                    </div>
+                                    <div class="mb-3 ">
+                                        <label for="CustomersCity" class="form-label">City</label>
+                                        <input type="text" name="CustomersCity" class="form-control border-warning  shadow-none" id="CustomersCity" required/> 
                                     </div>
                                     <div class="mb-3 ">
                                         <label for="CustomersAddress" class="form-label">Address</label>

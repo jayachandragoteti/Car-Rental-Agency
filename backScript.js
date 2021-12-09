@@ -12,10 +12,10 @@ function ajaxHomePageCall() {
       $(
         '.Register,.MyRequests,.MyRequests,.ChangePassword,.Profile,.Login'
       ).removeClass('active');
-      // availableBlood();
-      // setInterval(function () {
-      //   availableBlood();
-      // }, 30000);
+      availableCarsResponse();
+      setInterval(function () {
+        availableCarsResponse();
+      }, 30000);
     },
   });
 }
@@ -42,10 +42,7 @@ function ajaxMyRequestsPageCall() {
       $(
         '.Home,.Register,.MyRequests,.ChangePassword,.Profile,.Login'
       ).removeClass('active');
-      myRequests();
-      setInterval(function () {
-        myRequests();
-      }, 30000);
+      myBookingsList();
     },
   });
 }
@@ -61,18 +58,18 @@ function ajaxChangePasswordPageCall() {
   });
 }
 // Profile Page Call
-// function ajaxProfilePageCall() {
-//   $.ajax({
-//     url: './pages/profile.php',
-//     success: function (response) {
-//       $('.ajax-main-content').html(response);
-//       $('.Profile').addClass('active');
-//       $('.Home,.Register,.MyRequests,.ChangePassword,.Login').removeClass(
-//         'active'
-//       );
-//     },
-//   });
-// }
+function ajaxProfilePageCall() {
+  $.ajax({
+    url: './pages/profile.php',
+    success: function (response) {
+      $('.ajax-main-content').html(response);
+      $('.Profile').addClass('active');
+      $('.Home,.Register,.MyRequests,.ChangePassword,.Login').removeClass(
+        'active'
+      );
+    },
+  });
+}
 // Login Page Call
 function ajaxLoginPageCall() {
   $.ajax({
@@ -162,4 +159,158 @@ function userLogin() {
       },
     });
   }
+}
+// Update Password
+function UpdatePassword() {
+  $('.alert-bell').removeClass('d-none');
+  $('.User-Password-Alerts').html('Loading...');
+  var formData = {
+    oldPassword: $('#oldPassword').val(),
+    newPassword: $('#newPassword').val(),
+    confirmPassword: $('#confirmPassword').val(),
+    UpdatePassword: 'UpdatePassword',
+  };
+  if (
+    formData.oldPassword == '' ||
+    formData.newPassword == '' ||
+    formData.confirmPassword == ''
+  ) {
+    $('.alert-bell').removeClass('d-none');
+    $('.User-Password-Alerts').html('All fields must be filled!');
+  } else if (formData.newPassword != formData.confirmPassword) {
+    $('.alert-bell').removeClass('d-none');
+    $('.User-Password-Alerts').html(
+      'Password and confirm password should be same'
+    );
+  } else if (formData.confirmPassword.length < 8) {
+    $('.alert-bell').removeClass('d-none');
+    $('.User-Password-Alerts').html(
+      'Password should contain at least eight characters'
+    );
+  } else {
+    $.ajax({
+      type: 'POST',
+      url: './backScript.php',
+      data: formData,
+      success: function (response) {
+        $('.alert-bell').removeClass('d-none');
+        $('.User-Password-Alerts').html(response);
+      },
+    });
+  }
+}
+// Update profile Data
+function updateProfileData() {
+  $('.alert-bell').removeClass('d-none');
+  $('.update-profile-data-Alerts').html('Loading..');
+  var form = $('#updateProfileDataForm')[0];
+  var formData = new FormData(form);
+  $.ajax({
+    type: 'POST',
+    url: './backScript.php',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (Response) {
+      $('.alert-bell').removeClass('d-none');
+      $('.update-profile-data-Alerts').html(Response);
+      setTimeout(function () {
+        ajaxProfilePageCall();
+      }, 5000);
+    },
+  });
+}
+// Update profile Pic
+function profilePicUpdate() {
+  $('.alert-bell').removeClass('d-none');
+  $('.update-profile-data-Alerts').html('Loading..');
+  var form = $('#updateProfilePicForm')[0];
+  var formData = new FormData(form);
+  $.ajax({
+    type: 'POST',
+    url: './backScript.php',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function (Response) {
+      $('.alert-bell').removeClass('d-none');
+      $('.update-profile-data-Alerts').html(Response);
+      setTimeout(function () {
+        ajaxProfilePageCall();
+      }, 5000);
+    },
+  });
+}
+// Available CarsResponse
+function availableCarsResponse() {
+  var City = $('#availableCarsCityFilter').val();
+  var availableCarsGroupFilter = $('#availableCarsGroupFilter').val();
+  var availabilityFilter = $('#availabilityFilter').val();
+  var availableSeatingCapacityFilter = $(
+    '#availableSeatingCapacityFilter'
+  ).val();
+  $.ajax({
+    type: 'POST',
+    url: './backScript.php',
+    data: {
+      AvailableCarsResponse: 'AvailableCarsResponse',
+      City: City,
+      availableCarsGroupFilter: availableCarsGroupFilter,
+      availableSeatingCapacityFilter: availableSeatingCapacityFilter,
+      availabilityFilter: availabilityFilter,
+    },
+    success: function (response) {
+      $('.AvailableCarsResponse').html(response);
+    },
+  });
+}
+
+// Available CarsResponse
+function viewCarDetails(vehicleNo) {
+  let formData = {
+    viewCarDetails: 'viewCarDetails',
+    vehicleNo,
+  };
+  $.ajax({
+    type: 'POST',
+    url: './pages/viewMyCar.php',
+    data: formData,
+    success: function (response) {
+      $('.ajax-main-content').html(response);
+      $(
+        '.Home,.Register,.MyRequests,.MyRequests,.ChangePassword,.Profile,.Login'
+      ).removeClass('active');
+    },
+  });
+}
+// Book Your Car
+function bookYourCar(vehicleNo) {
+  let formData = {
+    bookYourCar: 'bookYourCar',
+    vehicleNo: vehicleNo,
+    startingDate: $('#startingDate').val(),
+    noDaysToRent: $('#noDaysToRent').val(),
+  };
+  $.ajax({
+    type: 'POST',
+    url: './backScript.php',
+    data: formData,
+    success: function (response) {
+      $('.book-your-car-alerts').html(response);
+    },
+  });
+}
+
+function myBookingsList() {
+  let formData = {
+    myBookingsList: 'myBookingsList',
+  };
+  $.ajax({
+    type: 'POST',
+    url: './backScript.php',
+    data: formData,
+    success: function (response) {
+      $('.myRequestsResponse').html(response);
+    },
+  });
 }

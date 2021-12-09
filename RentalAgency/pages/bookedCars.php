@@ -1,76 +1,57 @@
+<?PHP 
+include_once "./../../connect.php";
+session_start();
+if (isset($_SESSION['RentalAgency'])) {
+?>
 <section>
-	<div class="container">
-		<div class="row justify-content-md-center">
-			<!-- justify-content-md-center -->
-			<div class="col-lg-12">
-				<div class="card shadow mb-4">
-					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-dark">Booked Cars</h6> 
-                        
-                    </div>
-                    <div class="dataTable-top">
-                        <div class="dataTable-dropdown">
-                            <label>
-                                <select class="dataTable-selector">
-                                    <option value="5">5</option>
-                                    <option value="10" selected="">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="25">25</option>
-                                </select> entries per page</label>
-                        </div>
-                        <div class="dataTable-search">
-                            <input class="dataTable-input" placeholder="Search..." type="text">
-                        </div>
-                    </div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-hover">
-								<thead class="thead-dark">
-									<tr>
-										<th scope="col">#</th>
-                                        <th scope="col">Vehicle Image</th>
-										<th scope="col">Vehicle No</th>
-										<th scope="col">Vehicle Model</th>
-										<th scope="col">Seating Capacity</th>
-                                        <th scope="col">Rent Per Day</th>
-										<th scope="col">Vehicle Image</th>
-										<th scope="col">Status</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td><img src="./../assets/images/logo.png" class="img-fluid img-thumbnail" width="150" height="50" alt=""></td>
-										<td>Otto</td>
-										<td>@mdo</td>
-                                        <td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-                                        <td>@mdo</td>
-									</tr>
-									<tr>
-										<th scope="row">2</th>
-										<td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-                                        <td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-                                        <td>@mdo</td>
-									</tr>
-									<tr>
-										<th scope="row">3</th>
-										<td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-                                        <td>Mark</td>
-										<td>Otto</td>
-										<td>@mdo</td>
-                                        <td>@mdo</td>
-									</tr>
-								</tbody>
-							</table>
+	<div class="container-fluid px-4">
+		<h1 class="mt-4">Booked Cars</h1>
+		<div class="row ">
+			<div class="col-xl-12">
+				<div class="card mb-4">
+					<div class="card mb-4">
+						<div class="card-header">
+							<div class="dataTable-top">
+								<div class="dataTable-dropdown">
+									<label>
+										<select class="dataTable-selector" id="ShowRows" onclick="myBookedCarsList()">
+											<option value="10">10</option>
+											<option value="20">20</option>
+											<option value="30">30</option>
+											<option value="40">40</option>
+											<option value="50">50</option>
+											<option value="60">60</option>
+											<option value="70">70</option>
+											<option value="80">80</option>
+											<option value="90">90</option>
+											<option value="100">100</option>
+											<option value="More">More</option>
+										</select> </label>
+								</div>
+								<div class="dataTable-search col-5">
+									<input class="dataTable-input searchInput" placeholder="Search..." type="text"> </div>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+								<div class="dataTable-container">
+									<table id="datatablesSimple" class="dataTable-table">
+										<thead>
+											<tr>
+												<th><a href="#" class="">#</a></th>
+												<th><a href="#" class="">Vehicle Image</a></th>
+												<th><a href="#" class="">Vehicle No</a></th>
+												<th><a href="#" class="">Vehicle Model</a></th>
+												<th><a href="#" class="">Seating Capacity</a></th>
+												<th><a href="#" class="">Rent Per Day</a></th>
+												<th><a href="#" class="">Status</a></th>
+												<th><a href="#" class="">View</a></th>
+											</tr>
+										</thead>
+										<tbody class="booked-cars-list-data searchTable"> </tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -78,3 +59,15 @@
 		</div>
 	</div>
 </section>
+<?PHP 
+}
+?>
+<script>
+	// Jquery search
+$('.searchInput').on('keyup', function () {
+  var value = $(this).val().toLowerCase();
+  $('.searchTable tr').filter(function () {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+  });
+});
+</script>

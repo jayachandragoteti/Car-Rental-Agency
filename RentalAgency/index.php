@@ -1,121 +1,99 @@
 <?PHP 
-include_once "./connect.php";
+include_once "./../connect.php";
 session_start();
 if (!isset($_SESSION['RentalAgency'])) {
 	header("location: ./../logout.php");
 }
-?>
-<!DOCTYPE html>
-<html>
+$RentalAgency = $_SESSION['RentalAgency'];
+$selectRentalAgency = mysqli_query($connect,"SELECT * FROM `users` WHERE `userId` = '$RentalAgency'");
+$selectRentalAgencyRow = mysqli_fetch_array($selectRentalAgency);
+?><!DOCTYPE html>
+<html lang="en">
 
 <head>
-	<!-- Required meta tags -->
 	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-	<meta name="description" content="We are committed to provoke mindsets towards self learning and  provide unlimited opportunities with redefined look " />
-	<meta name="keywords" content="sac,aitam,aitamsac,aditya tekkali,aitam tekkali,Student Activity Center,Student Activity Center aitam,Aditya Institute of Technology and Management (AITAM College, Tekkali),Student Activity Center | AITAM" />
-	<meta name="author" content="Car Rental Agency " />
-	<title> Car Rental Agency </title>
-	<link rel="shortcut icon" href="./../assets/images/logo.png" type="image/png" />
-	<!-- Bootstrap CSS CDN -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-	<!-- Our Custom CSS -->
-	<link rel="stylesheet" href="./../assets/css/adminStyle.css">
-	<!-- Scrollbar Custom CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-	<!-- Font Awesome JS -->
-	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous">
-	</script>
-	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
-	</script>
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Car Rental Agency</title>
+	<link rel="shortcut icon" href="./../assets/images/HomeCar.png" type="image/png" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script src="./backScript.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+	<link href="./../assets/css/RentalAgencyStyles.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-	<div class="wrapper">
-		<!-- Sidebar  -->
-		<nav id="sidebar">
-			<div class="sidebar-header">
-				<h3>
-                    Car Rental Agency 
-                </h3> </div>
-			<ul class="list-unstyled components">
-				<!-- <p>Dummy Heading</p> -->
-				<li> <a href="#" onclick="ajaxAddNewCarsPageCall()" class="sidebarDismiss addNewCar"><i class="fas fa-plus-square"></i> Add New Car</a> </li>
-				<li> <a href="#" onclick="ajaxChangePasswordPageCall()" class="sidebarDismiss changePassword"><i class="fas fa-lock"></i> Change Password</a> </li>
-				<li> <a href="#" onclick="ajaxMyCarsPageCall()" class="sidebarDismiss myCars"><i class="fas fa-car"></i> My Cars</a> </li>
-				<li> <a href="#" onclick="ajaxAddNewCarsPageCall()" class="sidebarDismiss bookedCars"> <i class="fas fa-taxi"></i> Booked Cars</a> </li>
-				<!-- <li class="">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Web
-                        Content</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#" onclick="ajaxAddTrainingPageCall()">Add Training</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="ajaxAddEventPageCall()">Add Event</a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="ajaxAddGalleryPageCall()">Add Gallery </a>
-                        </li>
-                        <li>
-                            <a href="#" onclick="ajaxAddTestimonialPageCall()">Add Testimonials</a>
-                        </li>
-                    </ul>
-                </li> -->
-			</ul>
-			<ul class="list-unstyled CTAs">
-				<li> <a href="" class="article">Logout</a> </li>
-			</ul>
-		</nav>
-		<!-- Page Content  -->
-		<div id="content">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-                    <a href="#" id="sidebarCollapse"><i class="fas fa-align-left ze-text-primary"></i> </a>
-					<!-- <a class="nav-link ml-auto d-flex float-lg-end" href="./../logout.php" >
-                        <i class="fas fa-sign-out-alt mt-1"></i>&nbsp Logout
-                    </a> 
-                    <div class="navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item no-arrow">
-                                <a href="./../logout.php"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="nav-item no-arrow">
-                                
-                            </li>
-                        </ul>
-                    </div> --></div>
+<body class="sb-nav-fixed">
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+		<!-- Navbar Brand--><a class="navbar-brand ps-3" href="index.php">Car Rental Agency</a>
+		<!-- Sidebar Toggle-->
+		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+		<!-- Navbar Search-->
+		<form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+			<div class="input-group">
+				
+			</div>
+		</form>
+		<!-- Navbar-->
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+				<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+				<li><a class="dropdown-item changePassword" href="#!" onclick="ajaxProfilePageCall()"><i class="fas fa-id-badge"></i> Profile</a></li>
+				<li><a class="dropdown-item changePassword" href="#!" onclick="ajaxChangePasswordPageCall()"><i class="fas fa-lock"></i> Change Password</a></li>
+					<li>
+						<hr class="dropdown-divider" /> </li>
+					<li><a class="dropdown-item" href="./../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+				<div class="sb-sidenav-menu mt-3">
+					<div class="nav">
+						<a class="nav-link dashboard sidebarToggle" href="#" onclick="ajaxDashboardPageCall()">
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div> Dashboard 
+                        </a>
+                        <a class="nav-link addNewCar sidebarToggle" href="#" onclick="ajaxAddNewCarsPageCall()">
+							<div class="sb-nav-link-icon"><i class="fas fa-plus-square"></i></div> Add New Car 
+                        </a>
+                        <!-- <a class="nav-link changePassword sidebarToggle" href="#" onclick="ajaxChangePasswordPageCall()" >
+							<div class="sb-nav-link-icon"><i class="fas fa-lock"></i></div> Change Password 
+                        </a> -->
+                        <a class="nav-link myCars sidebarToggle" href="#" onclick="ajaxMyCarsPageCall()">
+							<div class="sb-nav-link-icon"><i class="fas fa-car"></i></div> My Cars
+                        </a>
+                        <a class="nav-link bookedCars sidebarToggle" href="#" onclick="ajaxBookedCarsPageCall()" >
+							<div class="sb-nav-link-icon"><i class="fas fa-taxi"></i></i></div>  Booked Cars
+                        </a>
+					</div>
+				</div>
+				<div class="sb-sidenav-footer">
+					<div class="small">Logged in as:</div><?PHP echo $selectRentalAgencyRow ['name']; ?> </div>
 			</nav>
-			<main id="ajax-main-content"> </main>
 		</div>
-		<!-- Popper.JS -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous">
-		</script>
-		<!-- Bootstrap JS -->
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
-		</script>
-		<!-- jQuery Custom Scroller CDN -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js">
-		</script>
-		<script type="text/javascript">
-		$(document).ready(function() {
-			$("#sidebar").mCustomScrollbar({
-				theme: "minimal"
-			});
-			$('#sidebarCollapse,.sidebarDismiss').on('click', function() {
-				$('#sidebar, #content').toggleClass('active');
-				$('.collapse.in').toggleClass('in');
-				$('a[aria-expanded=true]').attr('aria-expanded', 'false');
-			});
-		});
-		</script>
+		<div id="layoutSidenav_content">
+			<main id="ajax-main-content" class="p-lg-5"> </main>
+			<footer class="py-4 bg-light mt-auto">
+				<div class="container-fluid px-4">
+					<div class="d-flex align-items-center justify-content-between small">
+						<div class="text-muted">
+							<script>
+							document.write(new Date().getFullYear())
+							</script> Copyright: <a href="https://jayachandragoteti.github.io/" class="text-warning text-decoration-none">Jayachandra Goteti</a> </div>
+					</div>
+				</div>
+		</div>
+		</footer>
+	</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script src="./../assets/js/RentalAgencyScripts.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+	<script src="./../assets/js/datatables-simple-demo.js"></script>
 </body>
 
 </html>

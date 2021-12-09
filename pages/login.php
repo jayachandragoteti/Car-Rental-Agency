@@ -1,7 +1,7 @@
 <section>
     <div class="container">
         <div class="row justify-content-md-center">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="container">
                     <div class="card mt-5">
                         <div class="card-body">
