@@ -23,7 +23,7 @@
                                                 <input type="password" class="form-control border-warning  shadow-none" name="loginPassword" id="loginPassword" required/>
                                             </div>
                                         </div>
-                                        <p class="fw-bold text-warning  d-none alert-bell"><i class="fas fa-bell"></i> <span class="User-Login-Alerts"></span></p>
+                                        <p class="fw-bold text-warning"><span class="User-Login-Alerts"></span></p>
                                         <div class=" mb-3 text-center">
                                             <input type="button" onclick="userLogin()" name="loginSubmit" class="btn btn-sm btn-warning  text-white rounded-pill" style="font-size:20px;" value="Login" />
                                         </div>

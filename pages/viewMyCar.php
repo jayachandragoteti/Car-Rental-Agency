@@ -17,7 +17,7 @@ if (isset($_POST['viewCarDetails']) && isset($_POST['vehicleNo'])) {
 				<div class="card-body">
 					<div class="container">
 						<div class="row justify-content-md-center">
-							<div class="col-md-8"> <img class="img-account-profile mb-2 img-fluid img-thumbnail border  <?PHP echo ($CarsRow['VehicleStatus'] == 1) ? 'border-danger' : 'border-success' ;?>" src="./assets/images/vehicleImages/<?PHP echo $CarsRow['vehicleImage'];?>" alt=""> </div>
+							<div class="col-md-8"> <img class="img-account-profile mb-2 img-fluid img-thumbnail border  <?PHP echo ($CarsRow['VehicleStatus'] == 1) ? 'border-danger' : 'border-success' ;?>" src="./assets/images/vehicleImages/<?PHP echo $CarsRow['vehicleImage'];?>" alt="" style="width:80%;height:25rem;"/> </div>
 							<div class="col-sm-4" style="margin-left:-1%;">
 								<form id="carBooking">
 									<div class="form-group mb-3">
@@ -79,7 +79,7 @@ if (isset($_POST['viewCarDetails']) && isset($_POST['vehicleNo'])) {
 					<div class="container">
 						<div class="row justify-content-md-center">
 							<div class="col-md-8 p-3">
-								<div class="">Rental Agency Details</div> <img class="mb-2 img-fluid img-thumbnail" src="./assets/images/profilePics/<?PHP echo ($selectUserRow['profileImage'] == "") ? 'locationIcon.png': $selectCustomerRow['profileImage'];?>" alt="" style="max-height:25rem;"/> </div>
+								<div class="">Rental Agency Details</div> <img class="mb-2 img-fluid img-thumbnail" src="./assets/images/profilePics/<?PHP echo ($selectUserRow['profileImage'] == "") ? 'logo.png': $selectUserRow['profileImage'];?>" alt="" style="width:80%;height:25rem;"/> </div>
 							<div class="col-sm-4 p-3">
 								<form>
 									<div class="form-group mb-3">

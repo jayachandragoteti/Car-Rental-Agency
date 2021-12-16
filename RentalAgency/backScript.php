@@ -24,25 +24,30 @@ if (isset($_POST['vehicleNo']) && isset($_POST['vehicleModel']) && isset($_POST[
         $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'JPEG', 'PNG', 'JPG', 'jfif');
         $path = './../assets/images/vehicleImages/';//$target_dir = "uploads/";
         $finalImage = strtolower($vehicleNo.".".$vehicleImageExt);
+        $selectCarsList = mysqli_query($connect,"SELECT * FROM  `vehicleList` WHERE `vehicleNo` = '$vehicleNo'");
         $target_file = $path .($finalImage);
-        if (file_exists($target_file)) {
-            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, file already exists.</p>';
-        }elseif ($_FILES["vehicleImage"]["size"] > 300000) {
-            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, Image size must be exactly 3MB or below.</p>';
-        }elseif (!in_array($vehicleImageExt, $valid_extensions)) {
-            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, mages extension can be "jpeg", "jpg", "png", "gif", "JPEG" , "PNG" , "JPG" , "jfif"</p>';
-        }elseif (strlen($vehicleNo) < 10) {
-            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, Invalid Vehicle No</p>';
-        }elseif (move_uploaded_file($_FILES["vehicleImage"]["tmp_name"],$target_file)) {
-            $insertCar = mysqli_query($connect,"INSERT INTO `vehicleList`(`vehicleNo`, `vehicleModel`, `seatingCapacity`, `rentPerDay`, `vehicleImage`, `VehicleStatus`,`userId`) VALUES ('$vehicleNo','$vehicleModel','$seatingCapacity','$rentPerDay ','$finalImage','0','$RentalAgency')");
-            if ($insertCar) {
-                echo '<p class="text-success"><i class="fas fa-circle"></i> Vehicle added successfully.</p>';
-            } else {
-                unlink("./../assets/images/vehicleImages/$finalImage");
-                echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, failed, Try Again!.</p>';
+        if (mysqli_num_rows($selectCarsList) == 0) {
+            if (file_exists($target_file)) {
+                echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, file already exists.</p>';
+            }elseif ($_FILES["vehicleImage"]["size"] > 300000) {
+                echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, Image size must be exactly 3MB or below.</p>';
+            }elseif (!in_array($vehicleImageExt, $valid_extensions)) {
+                echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, mages extension can be "jpeg", "jpg", "png", "gif", "JPEG" , "PNG" , "JPG" , "jfif"</p>';
+            }elseif (strlen($vehicleNo) < 10) {
+                echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, Invalid Vehicle No</p>';
+            }elseif (move_uploaded_file($_FILES["vehicleImage"]["tmp_name"],$target_file)) {
+                $insertCar = mysqli_query($connect,"INSERT INTO `vehicleList`(`vehicleNo`, `vehicleModel`, `seatingCapacity`, `rentPerDay`, `vehicleImage`, `VehicleStatus`,`userId`) VALUES ('$vehicleNo','$vehicleModel','$seatingCapacity','$rentPerDay ','$finalImage','0','$RentalAgency')");
+                if ($insertCar) {
+                    echo '<p class="text-success"><i class="fas fa-check-circle"></i> Vehicle added successfully.</p>';
+                } else {
+                    unlink("./../assets/images/vehicleImages/$finalImage");
+                    echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, failed, Try Again!.</p>';
+                }
+            }else {
+                echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, file is not uploaded.Try Again!.</p>';
             }
-        }else {
-            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Sorry, file is not uploaded.Try Again!.</p>';
+        } else {
+            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i>Already exists.</p>';
         }
     } else {
         echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> All fields must be filled</p>';
@@ -56,9 +61,9 @@ if (isset($_POST['UpdatePassword']) && isset($_SESSION['RentalAgency'])) {
 		$newPassword = $connect -> real_escape_string($_POST['newPassword']);
 		$confirmPassword = $connect -> real_escape_string($_POST['confirmPassword']);
 		if ($newPassword != $confirmPassword) {
-			echo "Password and confirm password should be same!";
+            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Password and confirm password should be same!</p>';
 		}elseif (strlen($newPassword) < 8) {
-			echo "Password should contain at least eight characters";
+            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Password should contain at least eight characters!</p>';
 		} else {
 			$selectRentalAgency = mysqli_query($connect,"SELECT * FROM `users` WHERE `userId` = '$RentalAgency'");
 			if ($selectRentalAgency && mysqli_num_rows($selectRentalAgency) == 1 ) {
@@ -68,7 +73,7 @@ if (isset($_POST['UpdatePassword']) && isset($_SESSION['RentalAgency'])) {
 					$hashed_password = password_hash($newPassword, PASSWORD_DEFAULT);
 					$updatePassword = mysqli_query($connect,"UPDATE `users` SET `password`='$hashed_password' WHERE `userId` = '$RentalAgency'");
 					if ($updatePassword) {
-                        echo '<p class="text-success"><i class="fas fa-circle"></i> Password Updated successfully.</p>';
+                        echo '<p class="text-success"><i class="fas fa-check-circle"></i> Password Updated successfully.</p>';
 					} else {
                         echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
 					}
@@ -76,7 +81,6 @@ if (isset($_POST['UpdatePassword']) && isset($_SESSION['RentalAgency'])) {
                     echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Incorrect old password. please retry</p>';
 				}
 			} else {
-				echo "";
                 echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Invalid login!</p>';
 			}
 		}
@@ -116,7 +120,7 @@ if (isset($_POST['myCarsList']) && isset($_SESSION['RentalAgency'])) {
         <?PHP $i++;}
     } else {?>
         <tr>
-            <th scope="row" colspan="9" class="bg-danger text-md-center text-white">No Data Found!</th>
+            <th scope="row" colspan="9" class="bg-danger text-md-center text-white"><i class="far fa-frown"></i> No Data Found!</th>
         </tr>
     <?PHP }
     
@@ -132,7 +136,7 @@ if (isset($_POST['myCarDelete']) && isset($_SESSION['RentalAgency']) && isset($_
         if ($deleteMyCar) {
             $finalImage = $CarsRow['vehicleImage'];
             unlink("./../assets/images/vehicleImages/$finalImage");
-            echo '<p class="text-danger"><i class="fas fa-circle"></i> Car Deleted.</p>';
+            echo '<p class="text-danger"><i class="fas fa-check-circle"></i> Car Deleted.</p>';
         } else {
             echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
         }
@@ -149,7 +153,7 @@ if (isset($_POST['myBookedCarsList']) && isset($_SESSION['RentalAgency'])) {
             $LIMIT = 10;
         }elseif ($_POST['ShowRows'] == "More") {
             $LIMIT = 1000000000000;
-        } else{
+        } else{ 
             $LIMIT = $connect -> real_escape_string($_POST['ShowRows']);
         }
     }
@@ -170,11 +174,12 @@ if (isset($_POST['myBookedCarsList']) && isset($_SESSION['RentalAgency'])) {
         <?PHP $i++;}
     } else {?>
         <tr>
-            <th scope="row" colspan="9" class="bg-danger text-md-center text-white">No Data Found!</th>
+            <th scope="row" colspan="9" class="bg-danger text-md-center text-white"> <i class="far fa-frown"></i> No Data Found!</th>
         </tr>
     <?PHP }
     
 }
+
 /// Rental Agency Profile
 if (isset($_POST['RentalAgencyName']) && isset($_POST['RentalAgencyEmail']) && isset($_POST['RentalAgencyContactNo']) && isset($_POST['RentalAgencyCity']) && isset($_POST['RentalAgencyAddress']) && !isset($_POST['AadharNumber']) && !isset($_POST['RentalAgencyPassword']) && !isset($_POST['RentalAgencyConfirmPassword']) && isset($_SESSION['RentalAgency'])) {
     if ($_POST['RentalAgencyName'] != "" &&  $_POST['RentalAgencyEmail'] != "" && $_POST['RentalAgencyContactNo'] != "" && $_POST['RentalAgencyCity'] != "" && $_POST['RentalAgencyAddress'] != "" ) {
@@ -191,7 +196,7 @@ if (isset($_POST['RentalAgencyName']) && isset($_POST['RentalAgencyEmail']) && i
         } else {
             $userCheck = mysqli_query($connect,"UPDATE `users` SET `name`='$RentalAgencyName',`email`='$RentalAgencyEmail',`contactNo`='$RentalAgencyContactNo',`city`='$RentalAgencyCity',`address`='$RentalAgencyAddress' WHERE `userId` = '$RentalAgency'");
             if ($userCheck) {
-                echo '<p class="text-success"><i class="fas fa-circle"></i> Profile Updated successfully.</p>';
+                echo '<p class="text-success"><i class="fas fa-check-circle"></i> Profile Updated successfully.</p>';
             } else {
                 echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
             }
@@ -202,40 +207,44 @@ if (isset($_POST['RentalAgencyName']) && isset($_POST['RentalAgencyEmail']) && i
     }
 }
 
-if (isset($_SESSION['RentalAgency']) && isset($_FILES['RentalAgencyProfilePic']['name']) && $_FILES['RentalAgencyProfilePic']['name']!="" ) {//&& isset($_POST['updateProfilePic'])
-    $RentalAgency = $_SESSION['RentalAgency'];
-    $RentalAgencyProfilePicName = $_FILES['RentalAgencyProfilePic']['name'];
-    $RentalAgencyProfilePicFile = $_FILES['RentalAgencyProfilePic']['tmp_name'];
-    $userCheck = mysqli_query($connect,"SELECT * FROM `users` WHERE  `userId` = '$RentalAgency'");
-    if (mysqli_num_rows($userCheck) == 1) {
-        $selectRentalAgencyRow = mysqli_fetch_array($userCheck);
-        $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif');
-        $path = './../assets/images/profilePics/';
-        $ext = strtolower(pathinfo($RentalAgencyProfilePicName, PATHINFO_EXTENSION));
-        $finalImage = strtolower($selectRentalAgencyRow['email'].".".$ext);
-        $path1 = $path.($finalImage);
-        if(!in_array($ext, $valid_extensions)){
-            echo "Images extension can be 'jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif'";
-        } elseif($_FILES['RentalAgencyProfilePic']['size'] > 5097152){
-            echo "Image size must be exactly 5MB or below.";
-        } else{
-            if ($selectRentalAgencyRow['profileImage'] !="") {
-                $oldImg = $selectRentalAgencyRow['profileImage'];
-                unlink("./../assets/images/profilePics/$oldImg");
-            }
-            if (move_uploaded_file($RentalAgencyProfilePicFile,$path1)) {
-                $userCheck = mysqli_query($connect,"UPDATE `users` SET `profileImage`='$finalImage' WHERE `userId` = '$RentalAgency'");
-                if ($userCheck) {
-                    echo '<p class="text-success"><i class="fas fa-circle"></i> Profile Updated successfully.</p>';
-                } else {
-                    echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
+if (isset($_SESSION['RentalAgency']) && isset($_FILES['RentalAgencyProfilePic']['name'])) {//&& isset($_POST['updateProfilePic'])
+    if ( $_FILES['RentalAgencyProfilePic']['name']!="" ) {
+        $RentalAgency = $_SESSION['RentalAgency'];
+        $RentalAgencyProfilePicName = $_FILES['RentalAgencyProfilePic']['name'];
+        $RentalAgencyProfilePicFile = $_FILES['RentalAgencyProfilePic']['tmp_name'];
+        $userCheck = mysqli_query($connect,"SELECT * FROM `users` WHERE  `userId` = '$RentalAgency'");
+        if (mysqli_num_rows($userCheck) == 1) {
+            $selectRentalAgencyRow = mysqli_fetch_array($userCheck);
+            $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif');
+            $path = './../assets/images/profilePics/';
+            $ext = strtolower(pathinfo($RentalAgencyProfilePicName, PATHINFO_EXTENSION));
+            $finalImage = strtolower($selectRentalAgencyRow['email'].".".$ext);
+            $path1 = $path.($finalImage);
+            if(!in_array($ext, $valid_extensions)){
+                echo "Images extension can be 'jpeg', 'jpg', 'png', 'gif', 'JPEG' , 'PNG' , 'JPG' , 'jfif'";
+            } elseif($_FILES['RentalAgencyProfilePic']['size'] > 5097152){
+                echo "Image size must be exactly 5MB or below.";
+            } else{
+                if ($selectRentalAgencyRow['profileImage'] !="") {
+                    $oldImg = $selectRentalAgencyRow['profileImage'];
+                    unlink("./../assets/images/profilePics/$oldImg");
                 }
-            }else{
-                $userCheck = mysqli_query($connect,"UPDATE `users` SET `profileImage`='' WHERE `userId` = '$RentalAgency'");
+                if (move_uploaded_file($RentalAgencyProfilePicFile,$path1)) {
+                    $userCheck = mysqli_query($connect,"UPDATE `users` SET `profileImage`='$finalImage' WHERE `userId` = '$RentalAgency'");
+                    if ($userCheck) {
+                        echo '<p class="text-success"><i class="fas fa-check-circle"></i> Profile Updated successfully.</p>';
+                    } else {
+                        echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
+                    }
+                }else{
+                    $userCheck = mysqli_query($connect,"UPDATE `users` SET `profileImage`='' WHERE `userId` = '$RentalAgency'");
+                }
             }
+        }else {
+            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
         }
-    }else {
-        echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
+    } else {
+        echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Please Select the Profile Pic!</p>';
     }
 }
 // Rental Agency Car Pic Update
@@ -263,7 +272,7 @@ if (isset($_SESSION['RentalAgency']) && isset($_FILES['RentalAgencyCarPic']['nam
             if (move_uploaded_file($RentalAgencyCarPicFile,$path1)) {
                 $updateImage = mysqli_query($connect,"UPDATE `vehicleList` SET `vehicleImage`='$finalImage' WHERE `vehicleNo` = '$RentalAgencyCarNo' AND `userId` = '$RentalAgency'");
                 if ($updateImage) {
-                    echo '<p class="text-success"><i class="fas fa-circle"></i> Image Updated successfully.</p>';
+                    echo '<p class="text-success"><i class="fas fa-check-circle"></i> Image Updated successfully.</p>';
                 } else {
                     echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
                 }
@@ -292,7 +301,7 @@ if (isset($_POST['updateRentalAgencyCarNo']) && isset($_POST['updateRentalAgency
             $userCheck = mysqli_query($connect,"UPDATE `vehicleList` SET `vehicleNo`='$updateRentalAgencyCarNo',`vehicleModel`='$updateRentalAgencyCarModel',`seatingCapacity`='$updateRentalAgencyCarSeatingCapacity',`rentPerDay`='$updateRentalAgencyCarRentPerDay' WHERE `vehicleNo` = '$RentalAgencyCarNo'");
             if ($userCheck) {
                 $updateBookings = mysqli_query($connect,"UPDATE `carBookings` SET `vehicleNo`='$updateRentalAgencyCarNo' WHERE `vehicleNo` = '$RentalAgencyCarNo'");
-                echo '<p class="text-success"><i class="fas fa-circle"></i> .'.$updateRentalAgencyCarNo.'. Car Details Updated successfully.</p>';
+                echo '<p class="text-success"><i class="fas fa-check-circle"></i> .'.$updateRentalAgencyCarNo.'. Car Details Updated successfully.</p>';
             } else {
                 echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
             }
@@ -335,7 +344,7 @@ if (isset($_POST['bookingRequests'])) {
         <?PHP $i++;}
     } else {?>
         <tr>
-            <th scope="row" colspan="8" class="bg-danger text-md-center text-white">No Data Found!</th>
+            <th scope="row" colspan="8" class="bg-danger text-md-center text-white"><i class="far fa-frown"></i> No Data Found!</th>
         </tr>
     <?PHP }
 }
@@ -344,7 +353,7 @@ if (isset($_POST['acceptBookingRequest']) && isset($_POST['bookingId']) && $_POS
     $bookingId  = $_POST['bookingId'];
     $accept = mysqli_query($connect,"UPDATE `carBookings` SET `status`='1' WHERE `bookingId` = '$bookingId'");
     if ($accept) {
-        echo '<p class="text-success"><i class="fas fa-circle"></i> Successfully accepted</p>';
+        echo '<p class="text-success"><i class="fas fa-check-circle"></i> Successfully accepted</p>';
     }else {
         echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
     }
@@ -352,9 +361,15 @@ if (isset($_POST['acceptBookingRequest']) && isset($_POST['bookingId']) && $_POS
 //Rejected Booking Request
 if (isset($_POST['rejectBookingRequest']) && isset($_POST['bookingId']) && $_POST['bookingId'] !="") {
     $bookingId  = $_POST['bookingId'];
-    $Rejected = mysqli_query($connect,"UPDATE `carBookings` SET `status`='2' WHERE `bookingId` = '$bookingId'");
-    if ($Rejected) {
-        echo '<p class="text-success"><i class="fas fa-circle"></i> Successfully Rejected</p>';
+    $selectBookedCar = mysqli_fetch_array(mysqli_query($connect,"SELECT * FROM `carBookings`WHERE `bookingId` = '$bookingId' "));
+    $vehicleNo = $selectBookedCar['vehicleNo'];
+    if (mysqli_query($connect,"UPDATE `vehicleList` SET `VehicleStatus`='0' WHERE `vehicleNo` = '$vehicleNo'")) {
+        $Rejected = mysqli_query($connect,"UPDATE `carBookings` SET `status`='2' WHERE `bookingId` = '$bookingId'");
+        if ($Rejected) {
+            echo '<p class="text-success"><i class="fas fa-check-circle"></i> Successfully Rejected</p>';
+        }else {
+            echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
+        }
     }else {
         echo '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Failed try again!</p>';
     }

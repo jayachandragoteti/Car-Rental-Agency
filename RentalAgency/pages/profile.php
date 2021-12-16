@@ -12,11 +12,13 @@ if (isset($_SESSION['RentalAgency'])) {
 		<div class="row">
 			<div class="col-xl-12">
 				<div class="card mb-4">
-					<div class="card-header"> Profile Details<span class="update-profile-data-Alerts"></span></div>
+					<div class="card-header"> Profile Details</div>
 					<div class="card-body">
 						<div class="row justify-content-md-center ">
 							<div class="col-sm-6 border-bottom ">
-								<div class="d-flex align-items-start py-3 p-lg-4 d-flex align-items-center"> <img src="./../assets/images/profilePics/<?PHP echo ($selectRentalAgencyRow['profileImage'] == "") ? 'logo.png': $selectRentalAgencyRow['profileImage'];?>" class="profileImage rounded-circle ml-lg-5" alt="" style="height:10rem;width:10rem;"> </div>
+								<div class="d-flex align-items-start py-3 p-lg-4 d-flex align-items-center"> <img src="./../assets/images/profilePics/<?PHP echo ($selectRentalAgencyRow['profileImage'] == "") ? 'logo.png': $selectRentalAgencyRow['profileImage'];?>" class="profileImage rounded-circle ml-lg-5" alt="" style="height:10rem;width:10rem;"> 
+							</div>
+							<span class="update-profile-data-Alerts"></span>
 							</div>
 							<div class="col-sm-6 border-bottom ">
 								<div class="row py-2">

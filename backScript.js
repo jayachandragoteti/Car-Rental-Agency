@@ -4,6 +4,9 @@ ajaxHomePageCall();
 // ========== Ajax Page Calls ==========
 // Home Page Call
 function ajaxHomePageCall() {
+  $('.ajax-main-content').html(
+    '<img src="./assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/Home.php',
     success: function (response) {
@@ -21,6 +24,9 @@ function ajaxHomePageCall() {
 }
 // Register Page Call
 function ajaxRegisterPageCall() {
+  $('.ajax-main-content').html(
+    '<img src="./assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/register.php',
     success: function (response) {
@@ -34,6 +40,9 @@ function ajaxRegisterPageCall() {
 }
 // My Requests Page Call
 function ajaxMyRequestsPageCall() {
+  $('.ajax-main-content').html(
+    '<img src="./assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/myRequests.php',
     success: function (response) {
@@ -48,6 +57,9 @@ function ajaxMyRequestsPageCall() {
 }
 // Change Password Page Call
 function ajaxChangePasswordPageCall() {
+  $('.ajax-main-content').html(
+    '<img src="./assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/changePassword.php',
     success: function (response) {
@@ -72,6 +84,9 @@ function ajaxProfilePageCall() {
 }
 // Login Page Call
 function ajaxLoginPageCall() {
+  $('.ajax-main-content').html(
+    '<img src="./assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/login.php',
     success: function (response) {
@@ -90,8 +105,9 @@ function ajaxLoginPageCall() {
 
 // RentalAgency Registration
 function rentalAgencyRegistration() {
-  $('.alert-bell').removeClass('d-none');
-  $('.RentalAgency-Registration-Alerts').html('Loading..');
+  $('.RentalAgency-Registration-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#RentalAgencyRegistrationForm')[0];
   var formData = new FormData(form);
   $.ajax({
@@ -101,15 +117,15 @@ function rentalAgencyRegistration() {
     contentType: false,
     processData: false,
     success: function (Response) {
-      $('.alert-bell').removeClass('d-none');
       $('.RentalAgency-Registration-Alerts').html(Response);
     },
   });
 }
 // Customers Registration
 function customersRegistration() {
-  $('.alert-bell').removeClass('d-none');
-  $('.Customers-Registration-Alerts').html('Loading..');
+  $('.Customers-Registration-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#CustomersRegistrationForm')[0];
   var formData = new FormData(form);
   $.ajax({
@@ -119,7 +135,6 @@ function customersRegistration() {
     contentType: false,
     processData: false,
     success: function (Response) {
-      $('.alert-bell').removeClass('d-none');
       $('.Customers-Registration-Alerts').html(Response);
       // $('.SellerRegistrationErrors').html(Response);
       // if (Response == '*Successfully registered as seller.') {
@@ -130,8 +145,9 @@ function customersRegistration() {
 }
 // User Login
 function userLogin() {
-  $('.alert-bell').removeClass('d-none');
-  $('.User-Login-Alerts').html('Loading...');
+  $('.User-Login-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var formData = {
     loginEmail: $('#loginEmail').val(),
     loginPassword: $('#loginPassword').val(),
@@ -143,17 +159,17 @@ function userLogin() {
     formData.loginPassword == '' ||
     formData.LoginType == ''
   ) {
-    $('.alert-bell').removeClass('d-none');
-    $('.User-Login-Alerts').html('All fields must be filled!');
+    $('.User-Login-Alerts').html(
+      '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> All fields must be filled!</p>'
+    );
   } else {
     $.ajax({
       type: 'POST',
       url: './backScript.php',
       data: formData,
       success: function (response) {
-        $('.alert-bell').removeClass('d-none');
         $('.User-Login-Alerts').html(response);
-        if (response == 'loggedSuccessfully') {
+        if (response == 'loggedSuccessfully.') {
           window.location.assign('index.php');
         }
       },
@@ -162,8 +178,9 @@ function userLogin() {
 }
 // Update Password
 function UpdatePassword() {
-  $('.alert-bell').removeClass('d-none');
-  $('.User-Password-Alerts').html('Loading...');
+  $('.User-Password-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var formData = {
     oldPassword: $('#oldPassword').val(),
     newPassword: $('#newPassword').val(),
@@ -175,17 +192,16 @@ function UpdatePassword() {
     formData.newPassword == '' ||
     formData.confirmPassword == ''
   ) {
-    $('.alert-bell').removeClass('d-none');
-    $('.User-Password-Alerts').html('All fields must be filled!');
-  } else if (formData.newPassword != formData.confirmPassword) {
-    $('.alert-bell').removeClass('d-none');
     $('.User-Password-Alerts').html(
-      'Password and confirm password should be same'
+      '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> All fields must be filled!</p>'
+    );
+  } else if (formData.newPassword != formData.confirmPassword) {
+    $('.User-Password-Alerts').html(
+      '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Password and confirm password should be same</p>'
     );
   } else if (formData.confirmPassword.length < 8) {
-    $('.alert-bell').removeClass('d-none');
     $('.User-Password-Alerts').html(
-      'Password should contain at least eight characters'
+      '<p class="text-danger"><i class="fas fa-exclamation-circle"></i> Password should contain at least eight characters</p>'
     );
   } else {
     $.ajax({
@@ -193,7 +209,6 @@ function UpdatePassword() {
       url: './backScript.php',
       data: formData,
       success: function (response) {
-        $('.alert-bell').removeClass('d-none');
         $('.User-Password-Alerts').html(response);
       },
     });
@@ -201,8 +216,9 @@ function UpdatePassword() {
 }
 // Update profile Data
 function updateProfileData() {
-  $('.alert-bell').removeClass('d-none');
-  $('.update-profile-data-Alerts').html('Loading..');
+  $('.update-profile-data-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#updateProfileDataForm')[0];
   var formData = new FormData(form);
   $.ajax({
@@ -212,7 +228,6 @@ function updateProfileData() {
     contentType: false,
     processData: false,
     success: function (Response) {
-      $('.alert-bell').removeClass('d-none');
       $('.update-profile-data-Alerts').html(Response);
       setTimeout(function () {
         ajaxProfilePageCall();
@@ -222,8 +237,9 @@ function updateProfileData() {
 }
 // Update profile Pic
 function profilePicUpdate() {
-  $('.alert-bell').removeClass('d-none');
-  $('.update-profile-data-Alerts').html('Loading..');
+  $('.update-profile-data-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#updateProfilePicForm')[0];
   var formData = new FormData(form);
   $.ajax({
@@ -233,7 +249,6 @@ function profilePicUpdate() {
     contentType: false,
     processData: false,
     success: function (Response) {
-      $('.alert-bell').removeClass('d-none');
       $('.update-profile-data-Alerts').html(Response);
       setTimeout(function () {
         ajaxProfilePageCall();
@@ -244,19 +259,22 @@ function profilePicUpdate() {
 // Available CarsResponse
 function availableCarsResponse() {
   var City = $('#availableCarsCityFilter').val();
-  var availableCarsGroupFilter = $('#availableCarsGroupFilter').val();
+  var availableCarsGroupFilter = $('#availableCarsModelsFilter').val();
   var availabilityFilter = $('#availabilityFilter').val();
+  var ShowRows = $('#ShowRows').val();
   var availableSeatingCapacityFilter = $(
     '#availableSeatingCapacityFilter'
   ).val();
+  //alert(availableSeatingCapacityFilter);
   $.ajax({
     type: 'POST',
     url: './backScript.php',
     data: {
       AvailableCarsResponse: 'AvailableCarsResponse',
       City: City,
+      ShowRows: ShowRows,
       availableCarsGroupFilter: availableCarsGroupFilter,
-      availableSeatingCapacityFilter: availableSeatingCapacityFilter,
+      seatingCapacity: availableSeatingCapacityFilter,
       availabilityFilter: availabilityFilter,
     },
     success: function (response) {
@@ -267,6 +285,9 @@ function availableCarsResponse() {
 
 // Available CarsResponse
 function viewCarDetails(vehicleNo) {
+  $('.ajax-main-content').html(
+    '<img src="./assets/images/loging.gif" style="width:100%;"/>'
+  );
   let formData = {
     viewCarDetails: 'viewCarDetails',
     vehicleNo,

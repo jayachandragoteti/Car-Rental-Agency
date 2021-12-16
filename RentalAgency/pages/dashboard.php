@@ -91,7 +91,7 @@ if (isset($_SESSION['RentalAgency'])) {
 											<th><a href="#" class="">Delete</a></th>
 										</tr>
 									</thead>
-									<tbody class="booked-cars-list-data searchTable"> </tbody>
+									<tbody class="booking-cars-list-data searchTable"> </tbody>
 								</table>
 							</div>
 						</div>

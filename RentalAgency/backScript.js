@@ -1,15 +1,12 @@
 ajaxDashboardPageCall();
-// Jquery search
-$('#searchInput').on('keyup', function () {
-  var value = $(this).val().toLowerCase();
-  $('#searchTable tr').filter(function () {
-    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-  });
-});
+
 /*++++++++++++++++++++++++++++++++++
           Page Calls
 +++++++++++++++++++++++++++++++++++*/
 function ajaxDashboardPageCall() {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/dashboard.php',
     success: function (result) {
@@ -24,6 +21,9 @@ function ajaxDashboardPageCall() {
   });
 }
 function ajaxAddNewCarsPageCall() {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/addNewCars.php',
     success: function (result) {
@@ -34,6 +34,9 @@ function ajaxAddNewCarsPageCall() {
   });
 }
 function ajaxChangePasswordPageCall() {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/changePassword.php',
     success: function (result) {
@@ -44,6 +47,9 @@ function ajaxChangePasswordPageCall() {
   });
 }
 function ajaxMyCarsPageCall() {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/myCars.php',
     success: function (result) {
@@ -60,6 +66,9 @@ function ajaxMyCarsPageCall() {
   });
 }
 function ajaxBookedCarsPageCall() {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/bookedCars.php',
     success: function (result) {
@@ -75,6 +84,9 @@ function ajaxBookedCarsPageCall() {
 }
 // Profile Page Call
 function ajaxProfilePageCall() {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     url: './pages/profile.php',
     success: function (response) {
@@ -91,7 +103,9 @@ function ajaxProfilePageCall() {
 /*++++++++++++++++++++++++++++++++++*/
 // Add New Cars
 function addNewCar() {
-  $('.add-New-Cars-alerts').html('Loading..');
+  $('.add-New-Cars-alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   let form = $('#addNewCarsForm')[0];
   let formData = new FormData(form);
   $.ajax({
@@ -108,7 +122,9 @@ function addNewCar() {
 // Update Password
 function UpdatePassword() {
   $('.alert-bell').removeClass('d-none');
-  $('.User-Password-Alerts').html('Loading...');
+  $('.User-Password-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   let formData = {
     oldPassword: $('#oldPassword').val(),
     newPassword: $('#newPassword').val(),
@@ -145,6 +161,9 @@ function UpdatePassword() {
 }
 // My Cars List
 function myCarsList() {
+  $('.my-cars-list-data').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   let formData = {
     myCarsList: 'My Cars List',
     ShowRows: $('#ShowRows').val(),
@@ -160,6 +179,9 @@ function myCarsList() {
 }
 // My Booked Cars List
 function myBookedCarsList() {
+  $('.booked-cars-list-data').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   let formData = {
     myBookedCarsList: 'myBookedCarsList',
     ShowRows: $('#ShowRows').val(),
@@ -175,6 +197,9 @@ function myBookedCarsList() {
 }
 // My Car Delete
 function myCarDelete(carNumber) {
+  $('.my-car-list-alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   let formData = {
     carNumber: carNumber,
     myCarDelete: 'myCarDelete',
@@ -205,8 +230,9 @@ function viewMyCar(carNumber) {
 }
 // Update profile Data
 function updateProfileData() {
-  $('.alert-bell').removeClass('d-none');
-  $('.update-profile-data-Alerts').html('Loading..');
+  $('.update-profile-data-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#updateProfileDataForm')[0];
   var formData = new FormData(form);
   $.ajax({
@@ -218,14 +244,16 @@ function updateProfileData() {
     success: function (Response) {
       $('.update-profile-data-Alerts').html(Response);
       setTimeout(function () {
-        ajaxDashboardPageCall();
+        ajaxProfilePageCall();
       }, 5000);
     },
   });
 }
 // Update profile Pic
 function profilePicUpdate() {
-  $('.update-profile-data-Alerts').html('Loading..');
+  $('.update-profile-data-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#updateProfilePicForm')[0];
   var formData = new FormData(form);
   $.ajax({
@@ -244,7 +272,9 @@ function profilePicUpdate() {
 }
 // Rental Agency Car Pic Update
 function rentalAgencyCarPicUpdate(carNumber) {
-  $('.rental-agency-car-pic-update-alerts').html('Loading..');
+  $('.rental-agency-car-pic-update-alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#updateRentalAgencyCarPicForm')[0];
   var formData = new FormData(form);
 
@@ -264,7 +294,9 @@ function rentalAgencyCarPicUpdate(carNumber) {
 }
 // Rental Agency Car Data Update
 function rentalAgencyCarDataUpdate(carNumber) {
-  $('.rental-agency-car-data-update-alerts').html('Loading..');
+  $('.rental-agency-car-data-update-alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   var form = $('#updateRentalAgencyCarDataForm')[0];
   var formData = new FormData(form);
 
@@ -286,6 +318,9 @@ function rentalAgencyCarDataUpdate(carNumber) {
 
 // Booking Requests
 function bookingRequests() {
+  $('.booking-cars-list-data').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   $.ajax({
     type: 'POST',
     url: './backScript.php',
@@ -294,12 +329,15 @@ function bookingRequests() {
       ShowRows: $('#ShowRows').val(),
     },
     success: function (Response) {
-      $('.booked-cars-list-data').html(Response);
+      $('.booking-cars-list-data').html(Response);
     },
   });
 }
 // Accept Booking Request
 function acceptBookingRequest(bookingId) {
+  $('.Booking-requests-data-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   $.ajax({
     type: 'POST',
     url: './backScript.php',
@@ -315,6 +353,9 @@ function acceptBookingRequest(bookingId) {
 
 // Reject Booking Request
 function rejectBookingRequest(bookingId) {
+  $('.Booking-requests-data-Alerts').html(
+    '<p class="text-danger"><i class="fas fa-spinner"></i> Loading...</p>'
+  );
   $.ajax({
     type: 'POST',
     url: './backScript.php',
@@ -329,6 +370,9 @@ function rejectBookingRequest(bookingId) {
 }
 // View Customer
 function viewCustomer(userId) {
+  $('#ajax-main-content').html(
+    '<img src="./../assets/images/loging.gif" style="width:100%;"/>'
+  );
   $.ajax({
     type: 'POST',
     url: './pages/viewCustomer.php',

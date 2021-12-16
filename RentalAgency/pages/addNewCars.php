@@ -1,5 +1,4 @@
 <?PHP 
-include_once "./../../connect.php";
 session_start();
 if (isset($_SESSION['RentalAgency'])) {
 ?>
@@ -25,7 +24,9 @@ if (isset($_SESSION['RentalAgency'])) {
 											<div class="col-sm-12">
 												<div class="form-group">
 													<label for="vehicleModel">Vehicle Model</label>
-													<input type="text" class="form-control" name="vehicleModel" id="trainingName" required /> </div>
+													<input type="text" class="form-control" name="vehicleModel" id="trainingName"  required />
+									
+												</div>
 											</div>
 										</div>
 										<div class="row justify-content-md-center ">

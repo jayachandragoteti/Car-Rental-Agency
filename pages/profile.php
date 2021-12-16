@@ -19,7 +19,7 @@ if (isset($_SESSION['Customer'])) {
 						<div class="container">
 							<div class="row justify-content-md-center">
 								<div class="col-sm-6">
-									<div class="d-flex align-items-start py-3 border-bottom p-lg-4"> <img src="./assets/images/profilePics/<?PHP echo ($selectCustomerRow['profileImage'] == "") ? 'profile.png': $selectCustomerRow['profileImage'];?>" class="profileImage rounded-circle ml-lg-5" alt=""> </div>
+									<div class="d-flex align-items-start py-3  p-lg-4"> <img src="./assets/images/profilePics/<?PHP echo ($selectCustomerRow['profileImage'] == "") ? 'profile.png': $selectCustomerRow['profileImage'];?>" class="profileImage rounded-circle ml-lg-5" alt=""> </div>
 								</div>
 								<div class="col-sm-6">
 									<div class="row py-2">

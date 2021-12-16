@@ -20,9 +20,9 @@ $selectRentalAgencyRow = mysqli_fetch_array($selectRentalAgency);
 	<link rel="shortcut icon" href="./../assets/images/HomeCar.png" type="image/png" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	<script src="./backScript.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+	<!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" /> -->
 	<link href="./../assets/css/RentalAgencyStyles.css" rel="stylesheet" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+	<script src="./../assets/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="sb-nav-fixed">
@@ -76,7 +76,19 @@ $selectRentalAgencyRow = mysqli_fetch_array($selectRentalAgency);
 			</nav>
 		</div>
 		<div id="layoutSidenav_content">
-			<main id="ajax-main-content" class="p-lg-5"> </main>
+			<main id="ajax-main-content" class="p-lg-5">
+				<section>
+					<div class="container-fluid px-4">
+						<div class="row justify-content-md-center">
+							<div class="col-xl-12">
+								<div class="card mb-4">
+									<img src="./../assets/images/welcome.png" class="img-fluid" alt="...">
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
 			<footer class="py-4 bg-light mt-auto">
 				<div class="container-fluid px-4">
 					<div class="d-flex align-items-center justify-content-between small">
@@ -92,7 +104,7 @@ $selectRentalAgencyRow = mysqli_fetch_array($selectRentalAgency);
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="./../assets/js/RentalAgencyScripts.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> -->
 	<script src="./../assets/js/datatables-simple-demo.js"></script>
 </body>
 

@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <div class="row justify-content-md-center shift-register">
                         <div class="col-lg-4">
-                            <button class="btn btn-sm btn-warning  rounded-pill fw-bold RentalAgencyRegistrationButton" >Rental Agency</button>
+                            <button class="btn btn-sm btn-warning  rounded-pill fw-bold RentalAgencyRegistrationButton text-wh" >Rental Agency</button>
                         </div>
                         <div class="col-lg-4">
                             <button class="btn btn-sm btn-warning  rounded-pill fw-bold CustomersRegistrationButton bg-light border-warning  text-warning ">Customers</button>
@@ -57,7 +57,7 @@
                                         <label for="RentalAgencyConfirmPassword" class="form-label">Confirm password</label>
                                         <input type="password" name="RentalAgencyConfirmPassword" class="form-control border-warning  shadow-none" id="RentalAgencyConfirmPassword" required/> 
                                     </div>
-                                    <p class="fw-bold text-warning  d-none alert-bell"><i class="fas fa-bell"></i> <span class="RentalAgency-Registration-Alerts"></span></p>
+                                    <p class="fw-bold text-warning"> <span class="RentalAgency-Registration-Alerts"></span></p>
                                     <div class=" mb-3 text-center">
                                         <input type="button" class="btn btn-sm btn-warning  text-white  rounded-pill" name="RentalAgencyRegistration" id="RentalAgencyRegistration" onclick="rentalAgencyRegistration()" style="font-size:20px;" value="Register" /> 
                                     </div>
@@ -111,7 +111,7 @@
                                         <label for="CustomersConfirmPassword" class="form-label">Confirm password</label>
                                         <input type="password" name="CustomersConfirmPassword" class="form-control border-warning  shadow-none" id="CustomersConfirmPassword" required/> 
                                     </div>
-                                    <p class="fw-bold text-warning  d-none alert-bell"><i class="fas fa-bell"></i> <span class="Customers-Registration-Alerts"></span></p>
+                                    <p class="fw-bold text-warning"> <span class="Customers-Registration-Alerts"></span></p>
                                     <div class=" mb-3 text-center">
                                         <input type="button" class="btn btn-sm btn-warning  text-white  rounded-pill" name="CustomersRegistration" id="CustomersRegistration" onclick="customersRegistration()" style="font-size:20px;" value="Register" /> 
                                     </div>
@@ -128,8 +128,8 @@
 </section>
 <script>
     $('.RentalAgencyRegistrationButton').click(function () {
-        $('.RentalAgencyRegistrationButton').removeClass('bg-light border-warning  text-warning ');
-        $('.CustomersRegistrationButton').addClass('bg-light border-warning  text-warning ');
+        $('.RentalAgencyRegistrationButton').removeClass('bg-light border-warning  text-warning');
+        $('.CustomersRegistrationButton').addClass('bg-light border-warning  text-warning');
         $('.RentalAgencyRegistrationForm').show();
         $('.CustomersRegistrationForm').hide();
         //   $('.RentalAgencyRegistrationButton').prop('disabled', true);

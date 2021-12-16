@@ -52,7 +52,7 @@ if (isset($_SESSION['RentalAgency'])) {
 									</table>
 								</div>
 							</div>
-						</div>
+						</div> 
 					</div>
 				</div>
 			</div>
